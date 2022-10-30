@@ -31,7 +31,7 @@ carController.getCars = async (req, res, next) => {
   let { page } = req.query;
   page = parseInt(page) || 1;
   let limitPerPage = 10;
-  const filter = { _id: false };
+  const filter = { isDeleted: false };
   try {
     //mongoose query
     const listOfFound = await Car.find(filter);
