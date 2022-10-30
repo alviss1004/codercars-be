@@ -19,9 +19,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Connect to MONGODB
 mongoose
-  .connect(
-    "mongodb+srv://CoderCars:CoderCars123@cscodercars.0zpb6wf.mongodb.net/test"
-  )
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to Database!"))
   .catch((err) => console.log(err));
 
