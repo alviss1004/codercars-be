@@ -26,7 +26,7 @@ carController.createCar = async (req, res, next) => {
 };
 
 carController.getCars = async (req, res, next) => {
-  await mongoose.connect(MONGO_URI);
+  await mongoose.connect(process.env.MONGO_URI);
   console.log("Connected to Database!");
   let { page } = req.query;
   page = parseInt(page) || 1;

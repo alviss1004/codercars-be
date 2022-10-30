@@ -11,7 +11,7 @@ const cors = require("cors");
 require("dotenv/config");
 
 const createCars = async () => {
-  await mongoose.connect(MONGO_URI);
+  await mongoose.connect(process.env.MONGO_URI);
   console.log("Connected to Database!");
 
   let newData = await csv().fromFile("data.csv");
