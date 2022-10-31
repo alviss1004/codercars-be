@@ -35,6 +35,8 @@ carController.getCars = async (req, res, next) => {
   try {
     //mongoose query
     const listOfFound = await Car.find(filter);
+    if (!listOfFound) throw new AppError(400, "Bad Request", "No car found");
+
     let offset = limitPerPage * (page - 1);
     const listOfCars = listOfFound.slice(offset, offset + limitPerPage);
     sendResponse(
@@ -53,12 +55,15 @@ carController.getCars = async (req, res, next) => {
 carController.editCar = async (req, res, next) => {
   const targetId = mongoose.Types.ObjectId(req.params);
   const updateInfo = req.body;
+  if (!targetId)
+    throw new AppError(400, "Bad Request", "Could not find car with given id");
 
   //options allow you to modify query. e.g new true return lastest update of data
   const options = { new: true };
   try {
     //mongoose query
     const updated = await Car.findByIdAndUpdate(targetId, updateInfo, options);
+    if (!updated) throw new AppError(400, "Bad Request", "No car found");
 
     sendResponse(
       res,
@@ -75,6 +80,8 @@ carController.editCar = async (req, res, next) => {
 
 carController.deleteCar = async (req, res, next) => {
   const targetId = mongoose.Types.ObjectId(req.params);
+  if (!targetId)
+    throw new AppError(400, "Bad Request", "Could not find car with given id");
 
   const options = { new: true };
   try {
@@ -84,6 +91,7 @@ carController.deleteCar = async (req, res, next) => {
       { isDeleted: true },
       options
     );
+    if (!updated) throw new AppError(400, "Bad Request", "No car found");
 
     sendResponse(
       res,
